@@ -14,7 +14,6 @@
             --text-main: #f4f4f5;
             --text-muted: #a1a1aa;
             --border: #27272a;
-            --border-glow: rgba(56, 189, 248, 0.2);
         }
 
         * {
@@ -36,7 +35,8 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        #spotlight-canvas {
+        /* 고대비 하이엔드 배경 캔버스 */
+        #bg-canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -44,21 +44,37 @@
             height: 100%;
             pointer-events: none;
             z-index: 1;
-            opacity: 0.8;
         }
 
-        .grid-overlay {
+        /* Top Navigation */
+        nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
+            height: 64px;
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
             height: 100%;
-            background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none;
-            z-index: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: -0.03em;
+            color: var(--text-main);
         }
 
         .container {
@@ -71,46 +87,81 @@
 
         /* Hero Section */
         .hero {
-            min-height: 90vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 6rem 0;
+            padding: 8rem 0 6rem;
         }
 
         .badge {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            color: var(--text-main);
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: var(--accent);
             padding: 0.4rem 1rem;
             border-radius: 9999px;
             font-size: 0.8rem;
-            font-weight: 500;
+            font-weight: 600;
             letter-spacing: 0.05em;
             margin-bottom: 2.5rem;
             text-transform: uppercase;
-            backdrop-filter: blur(4px);
         }
 
         .hero h1 {
-            font-size: 5rem;
+            font-size: 5.5rem;
             font-weight: 800;
             line-height: 1.05;
             letter-spacing: -0.04em;
             margin-bottom: 2rem;
-            background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
+            background: linear-gradient(180deg, #ffffff 30%, #52525b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            font-size: 1.25rem;
+            font-size: 1.35rem;
             color: var(--text-muted);
-            max-width: 720px;
+            max-width: 750px;
             line-height: 1.7;
             font-weight: 400;
+            margin-bottom: 3.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--text-main);
+            color: var(--bg);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.85rem 1.75rem;
+            border-radius: 8px;
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: background-color 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--bg);
+            color: var(--text-main);
+            border-color: var(--border);
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--text-muted);
+            box-shadow: none;
         }
 
         /* Scroll Reveal Base */
@@ -159,18 +210,19 @@
         .bento-grid .card:nth-child(4) { grid-column: span 2; }
 
         .card {
-            background: var(--surface-low);
+            background: rgba(9, 9, 11, 0.7);
             border: 1px solid var(--border);
             border-radius: 20px;
             padding: 3rem;
-            transition: border-color 0.4s, background-color 0.4s;
-            position: relative;
-            overflow: hidden;
+            transition: border-color 0.4s, background-color 0.4s, transform 0.4s;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .card:hover {
             border-color: rgba(var(--accent-rgb), 0.4);
-            background-color: rgba(24, 24, 27, 0.5);
+            background-color: rgba(24, 24, 27, 0.8);
+            transform: translateY(-2px);
         }
 
         .card h3 {
@@ -198,11 +250,13 @@
         }
 
         .metric-panel {
-            background: var(--surface-low);
+            background: rgba(9, 9, 11, 0.7);
             border: 1px solid var(--border);
             border-radius: 20px;
             padding: 2.5rem;
             transition: border-color 0.4s;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .metric-panel:hover {
@@ -292,6 +346,8 @@
             color: #3f3f46;
             font-size: 0.9rem;
             border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 2;
         }
 
         @media (max-width: 900px) {
@@ -310,14 +366,27 @@
 </head>
 <body>
 
-    <div class="grid-overlay"></div>
-    <canvas id="spotlight-canvas"></canvas>
+    <nav>
+        <div class="nav-container">
+            <span class="logo">VPL 1.1</span>
+            <a href="https://github.com/KlartNET/vpl" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+                GitHub
+            </a>
+        </div>
+    </nav>
+
+    <canvas id="bg-canvas"></canvas>
 
     <div class="container">
         <section class="hero">
             <div class="badge">Architecture Standard</div>
             <h1>The Zero-Overhead<br>Architecture.</h1>
             <p>모든 하드웨어와 실행 환경에서 완벽하게 작동합니다. x86이나 ARM 같은 현재의 표준 PC·서버 환경은 물론, 미래의 새로운 컴퓨팅 장치로 전환할 때도 추가적인 이식 비용이 전혀 들지 않습니다.</p>
+            <a href="https://github.com/KlartNET/vpl" class="btn" target="_blank" rel="noopener noreferrer">
+                <svg height="18" width="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+                View Repository Specification
+            </a>
         </section>
 
         <section class="specs">
@@ -348,14 +417,14 @@
 
         <section class="benchmark">
             <div class="section-header reveal">
-                <h2 class="section-title">Performance Matrix</h2>
+                <h2 class="section-title">Multi-Genre Performance Matrix</h2>
                 <p class="section-subtitle">컴퓨트 엔지니어링, 클라우드 가상화 및 개발 생산성 관점의 다각도 벤치마크</p>
             </div>
 
             <div class="dashboard reveal" id="perf-dashboard-trigger">
                 <div class="metric-panel">
                     <div class="metric-info">
-                        <span class="metric-title">하드웨어 연산 및 메모리 점유율</span>
+                        <span class="metric-title">Genre 01 / 하드웨어 연산 및 메모리 점유율</span>
                         <span class="metric-desc">프로세스 구동 단계 및 유저 세션 폭증 시 할당되는 런타임 메모리 크기</span>
                     </div>
                     <div class="compare-list">
@@ -374,7 +443,7 @@
 
                 <div class="metric-panel">
                     <div class="metric-info">
-                        <span class="metric-title">클라우드 인프라 배포 오버헤드</span>
+                        <span class="metric-title">Genre 02 / 클라우드 인프라 배포 오버헤드</span>
                         <span class="metric-desc">가상화 컨테이너 빌드 및 오케스트레이션 구동 시 발생하는 콜드 스타트 지연 시간</span>
                     </div>
                     <div class="compare-list">
@@ -387,25 +456,6 @@
                             <span class="item-name vpl-accent">VPL 1.1 Specification</span>
                             <div class="bar-wrapper"><div class="bar-progress vpl-progress" data-width="0%"></div></div>
                             <span class="item-value vpl-accent">0.00 ms</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="metric-panel">
-                    <div class="metric-info">
-                        <span class="metric-title">시스템 복잡도 및 코드 부채 비율</span>
-                        <span class="metric-desc">제품 라이프사이클 확장에 따라 누적되는 소프트웨어 유지보수 복잡도 지수</span>
-                    </div>
-                    <div class="compare-list">
-                        <div class="compare-item">
-                            <span class="item-name">Legacy Enterprise Architecture</span>
-                            <div class="bar-wrapper"><div class="bar-progress" data-width="90%"></div></div>
-                            <span class="item-value">High Risk (78%)</span>
-                        </div>
-                        <div class="compare-item">
-                            <span class="item-name vpl-accent">VPL 1.1 Core</span>
-                            <div class="bar-wrapper"><div class="bar-progress vpl-progress" data-width="0%"></div></div>
-                            <span class="item-value vpl-accent">0.00%</span>
                         </div>
                     </div>
                 </div>
@@ -442,25 +492,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="metric-panel">
-                    <div class="metric-info">
-                        <span class="metric-title">의존성 공급망 보안 취약점 발생률</span>
-                        <span class="metric-desc">오픈소스 패키지 중첩 구성 과정에서 보고되는 잠재적 취약점(CVE) 개수</span>
-                    </div>
-                    <div class="compare-list">
-                        <div class="compare-item">
-                            <span class="item-name">일반 오픈소스 아키텍처 (Apache 2.0 기반)</span>
-                            <div class="bar-wrapper"><div class="bar-progress" data-width="80%"></div></div>
-                            <span class="item-value">높음 (평균 18건/연)</span>
-                        </div>
-                        <div class="compare-item">
-                            <span class="item-name vpl-accent">VPL 1.1 (본 규격 — 외부 소스 원천 격리)</span>
-                            <div class="bar-wrapper"><div class="bar-progress vpl-progress" data-width="0%"></div></div>
-                            <span class="item-value vpl-accent">0건 (원천 차단)</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -470,35 +501,81 @@
     </div>
 
     <script>
-        // 1. requestAnimationFrame 기반 스포트라이트 광원 효과
-        const canvas = document.getElementById('spotlight-canvas');
+        const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         
-        let targetX = -1000, targetY = -1000;
-        let currentX = -1000, currentY = -1000;
+        let mouseX = -1000, mouseY = -1000;
+        let currentMouseX = -1000, currentMouseY = -1000;
 
-        function setCanvasSize() {
+        // 고대비 수학적 격자 구조 생성
+        const dots = [];
+        const spacing = 55; // 격자 간격
+
+        function initGrid() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            dots.length = 0;
+
+            for (let x = 0; x < canvas.width; x += spacing) {
+                for (let y = 0; y < canvas.height; y += spacing) {
+                    dots.push({ baseX: x, baseY: y, x: x, y: y });
+                }
+            }
         }
-        window.addEventListener('resize', () => requestAnimationFrame(setCanvasSize));
-        setCanvasSize();
+        
+        window.addEventListener('resize', () => requestAnimationFrame(initGrid));
+        initGrid();
 
         window.addEventListener('mousemove', (e) => {
-            targetX = e.clientX;
-            targetY = e.clientY;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
 
-        function animateSpotlight() {
-            currentX += (targetX - currentX) * 0.05;
-            currentY += (targetY - currentY) * 0.05;
+        // 애니메이션 루프 (rAF 패턴)
+        function render() {
+            // 마우스 포인터 감속 보간
+            currentMouseX += (mouseX - currentMouseX) * 0.08;
+            currentMouseY += (mouseY - currentMouseY) * 0.08;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            if (currentX > -500) {
+
+            // 격자 포인트 및 마우스 반응형 워프 필드 연산
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.25)'; // 기존 대비 시각적 선명도 증가
+
+            for (let i = 0; i < dots.length; i++) {
+                let d = dots[i];
+                
+                // 마우스와 노드 간의 거리 계산
+                let dx = currentMouseX - d.baseX;
+                let dy = currentMouseY - d.baseY;
+                let distance = Math.hypot(dx, dy);
+                
+                // 일정한 반응 반경(Radius) 안에서만 물리 법칙 제어
+                let maxDist = 220;
+                if (distance < maxDist) {
+                    let force = (maxDist - distance) / maxDist;
+                    // 마우스 좌표 반대 방향으로 밀어내는 워프 효과 구현
+                    d.x = d.baseX - dx * force * 0.35;
+                    d.y = d.baseY - dy * force * 0.35;
+                    ctx.fillStyle = `rgba(56, 189, 248, ${0.25 + force * 0.5})`;
+                } else {
+                    // 복원력 작용
+                    d.x += (d.baseX - d.x) * 0.1;
+                    d.y += (d.baseY - d.y) * 0.1;
+                    ctx.fillStyle = 'rgba(56, 189, 248, 0.25)';
+                }
+
+                // 점 드로잉 (가독성 향상을 위해 1.5px 크기 유지)
+                ctx.beginPath();
+                ctx.arc(d.x, d.y, 1.5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // 마우스 스포트라이트 광원 결합
+            if (currentMouseX > -500) {
                 const gradient = ctx.createRadialGradient(
-                    currentX, currentY, 0,
-                    currentX, currentY, 350
+                    currentMouseX, currentMouseY, 0,
+                    currentMouseX, currentMouseY, 350
                 );
                 gradient.addColorStop(0, 'rgba(56, 189, 248, 0.08)');
                 gradient.addColorStop(0.5, 'rgba(56, 189, 248, 0.02)');
@@ -507,12 +584,12 @@
                 ctx.fillStyle = gradient;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
             }
-            
-            requestAnimationFrame(animateSpotlight);
-        }
-        requestAnimationFrame(animateSpotlight);
 
-        // 2. IntersectionObserver 기반 순차 Reveal 및 모든 대시보드 차트 동적 활성화
+            requestAnimationFrame(render);
+        }
+        requestAnimationFrame(render);
+
+        // IntersectionObserver 스크롤 제어
         const observerOptions = {
             root: null,
             rootMargin: '0px -10% -10% 0px',
@@ -525,7 +602,6 @@
                     entry.target.style.transitionDelay = `${index * 0.05}s`;
                     entry.target.classList.add('active');
                     
-                    // 성능 매트릭스 또는 컴플라이언스 대시보드가 트리거되면 하위 모든 게이지 작동
                     if (entry.target.classList.contains('dashboard')) {
                         const progresses = entry.target.querySelectorAll('.bar-progress');
                         progresses.forEach(progress => {
